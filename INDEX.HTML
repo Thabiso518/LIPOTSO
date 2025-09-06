@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT4D Knowledge Test (60 Marks)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #fff;
+            overflow-x: hidden;
+            background: #0a0a0a;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        /* Fire animation background */
+        .fire-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .fire-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .flame {
+            position: absolute;
+            bottom: -100px;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: rise linear infinite;
+        }
+        
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100vh) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* Content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Header styles */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 40px;
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ff4500;
+            text-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 69, 0, 0.9), 0 0 30px rgba(255, 69, 0, 0.5);
+            }
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffa500;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Test sections */
+        .section {
+            background: rgba(20, 20, 20, 0.85);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            color: #ff7f50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ff4500;
+            transition: all 0.3s;
+        }
+        
+        h2:hover {
+            color: #ff4500;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: #ffa500;
+            margin: 25px 0 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        /* Question styling */
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 69, 0, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #ff4500;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffa500;
+        }
+        
+        .marks {
+            display: inline-block;
+            background: #ff4500;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ff4500;
+            border-radius: 5px;
+            color: white;
+            padding: 15px;
+            font-size: 1rem;
+            margin-top: 10px;
+            resize: vertical;
+            min-height: 100px;
+            transition: background 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            background: rgba(255, 69, 0, 0.15);
+        }
+        
+        /* Answer access section */
+        .answer-access {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 69, 0, 0.1);
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+        
+        .code-input {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .code-input input {
+            padding: 12px 15px;
+            font-size: 1.2rem;
+            border: 2px solid #ff4500;
+            border-radius: 5px 0 0 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 200px;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+        
+        .code-input button {
+            padding: 12px 20px;
+            background: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+        
+        .code-input button:hover {
+            background: #ff6347;
+        }
+        
+        .answers-container {
+            display: none;
+            background: rgba(20, 20, 20, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .answer {
+            padding: 20px;
+            margin-bottom: 20px;
+            background: rgba(0, 100, 0, 0.2);
+            border-radius: 8px;
+            border-left: 4px solid #32cd32;
+        }
+        
+        .answer-title {
+            color: #32cd32;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            color: #ffa500;
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 10px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .code-input {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .code-input input {
+                border-radius: 5px;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+            
+            .code-input button {
+                border-radius: 5px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated fire background -->
+    <div class="fire-background" id="fireBackground"></div>
+    <div class="fire-layer"></div>
+    
+    <div class="container">
+        <header>
+            <h1>ICT4D Knowledge Test</h1>
+            <p class="subtitle">Total Marks: 60 | Answer all questions in the spaces provided</p>
+        </header>
+        
+        <div class="section">
+            <h2>Section A: Multiple Choice Questions (20 Marks)</h2>
+            
+            <div class="question">
+                <div class="question-text">1. What does the "D" in ICT4D stand for? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Which of these is an example of mHealth? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. What is the primary goal of SDG 4? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. Which technology has been most transformative for financial inclusion in developing countries? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. What does a National Digital Policy primarily aim to do? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">6. Which principle is most important in community development? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">7. What is the main advantage of digital communication over traditional communication? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">8. Which SDG focuses on gender equality? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">9. What is the primary use of laptops in ICT4D projects? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">10. What year were the SDGs adopted by the UN? <span class="marks">2 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Section B: Short Answer Questions (20 Marks)</h2>
+            
+            <div class="question">
+                <div class="question-text">11. Explain the difference between traditional and digital communication. <span class="marks">4 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">12. Describe three key areas where technology is used for service provision in development. <span class="marks">6 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">13. What are the three dimensions of sustainability that the SDGs aim to balance? <span class="marks">3 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">14. Explain the concept of "leapfrogging" in ICT4D. <span class="marks">4 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">15. Why is the hybrid model often the most effective approach in ICT4D? <span class="marks">3 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Section C: Essay Questions (20 Marks)</h2>
+            
+            <div class="question">
+                <div class="question-text">16. Discuss the role of mobile phones and laptops in ICT4D, highlighting their complementary functions. <span class="marks">10 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">17. Analyze how technology can both contribute to development and potentially worsen inequality. Provide examples. <span class="marks">10 marks</span></div>
+                <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+        </div>
+        
+        <div class="answer-access">
+            <h2>Access Answers</h2>
+            <p>Enter the code to view the answer key:</p>
+            <div class="code-input">
+                <input type="password" id="answerCode" placeholder="Enter code">
+                <button onclick="checkCode()">View Answers</button>
+            </div>
+            <div id="message" style="color: #ff4500; margin-top: 10px;"></div>
+            
+            <div id="answersContainer" class="answers-container">
+                <h2>Answer Key</h2>
+                
+                <h3>Section A: Multiple Choice Questions</h3>
+                <div class="answer">
+                    <div class="answer-title">1. Correct Answer:</div>
+                    <p>Development</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">2. Correct Answer:</div>
+                    <p>SMS medication reminders</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">3. Correct Answer:</div>
+                    <p>Quality Education</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">4. Correct Answer:</div>
+                    <p>Mobile money (e.g., M-PESA)</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">5. Correct Answer:</div>
+                    <p>Coordinate a country's approach to digital transformation</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">6. Correct Answer:</div>
+                    <p>Participation and empowerment</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">7. Correct Answer:</div>
+                    <p>Speed and reach (instant, global communication)</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">8. Correct Answer:</div>
+                    <p>SDG 5</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">9. Correct Answer:</div>
+                    <p>Creation, analysis, and management</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">10. Correct Answer:</div>
+                    <p>2015</p>
+                </div>
+                
+                <h3>Section B: Short Answer Questions</h3>
+                <div class="answer">
+                    <div class="answer-title">11. Sample Answer:</div>
+                    <p>Traditional communication refers to analog, one-way methods like face-to-face meetings, print media, and broadcast media. Digital communication uses internet-based tools like mobile phones, social media, and email. Key differences include digital being faster, more interactive, having greater reach, and being more cost-effective at scale.</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">12. Sample Answer:</div>
+                    <p>1. Financial Inclusion: Mobile money and digital banking services. 2. Healthcare (mHealth): Telemedicine, health records, and diagnostic apps. 3. Education (EdTech): Digital classrooms and online learning resources. 4. Agriculture: Market price alerts and farming advice via SMS. 5. Government: Digital IDs and online service portals.</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">13. Sample Answer:</div>
+                    <p>1. Economic growth, 2. Social inclusion, 3. Environmental protection</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">14. Sample Answer:</div>
+                    <p>Leapfrogging is when developing countries skip outdated technologies and go straight to advanced solutions. For example, many African countries skipped landline networks and went directly to mobile phones, bypassing a whole generation of infrastructure.</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">15. Sample Answer:</div>
+                    <p>The hybrid model integrates digital tools with traditional methods to ensure no one is left behind. It's effective because it combines the reach and efficiency of digital tools with the trust and accessibility of traditional methods, creating a more inclusive approach.</p>
+                </div>
+                
+                <h3>Section C: Essay Questions</h3>
+                <div class="answer">
+                    <div class="answer-title">16. Sample Answer:</div>
+                    <p>Mobile phones and laptops play complementary roles in ICT4D. Mobile phones, particularly basic feature phones, are the "tool of reach and access" - they are ubiquitous, affordable, and portable, making them ideal for reaching the "last mile." They enable communication, mobile money, SMS alerts, and simple data collection.</p>
+                    <p>Laptops serve as the "tool of depth and creation" - they are used for data analysis, content creation, software development, and program management. While mobile phones collect data from the field, laptops analyze this data and transform it into actionable insights.</p>
+                    <p>The symbiotic relationship between these devices is crucial: data flows from phones to laptops, and insights flow from laptops back to phones for implementation.</p>
+                </div>
+                
+                <div class="answer">
+                    <div class="answer-title">17. Sample Answer:</div>
+                    <p>Technology can contribute to development by improving access to services, increasing efficiency, and enabling innovation. For example, mobile money has revolutionized financial inclusion in Kenya through M-PESA, allowing people without bank accounts to save and transfer money.</p>
+                    <p>However, technology can also worsen inequality through the digital divide. Those without access to devices, electricity, or digital skills are left further behind. For instance, during the COVID-19 pandemic, students without internet access couldn't participate in online learning, exacerbating educational inequalities.</p>
+                    <p>The impact depends on implementation: technology must be context-appropriate, affordable, and accompanied by digital literacy training to avoid worsening existing inequalities.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>ICT4D Knowledge Test - Good luck with your answers!</p>
+            <p>Remember to attempt all questions before checking the answer key.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create animated fire background
+        document.addEventListener('DOMContentLoaded', function() {
+            const fireBackground = document.getElementById('fireBackground');
+            const colors = ['#ff4500', '#ff8c00', '#ffa500', '#ff6347', '#ff7f50'];
+            
+            function createFlame() {
+                const flame = document.createElement('div');
+                flame.classList.add('flame');
+                
+                // Random properties for each flame
+                const size = Math.random() * 50 + 20;
+                const posX = Math.random() * 100;
+                const duration = Math.random() * 10 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                flame.style.width = `${size}px`;
+                flame.style.height = `${size}px`;
+                flame.style.left = `${posX}%`;
+                flame.style.background = `radial-gradient(${color}, transparent)`;
+                flame.style.animationDuration = `${duration}s`;
+                
+                fireBackground.appendChild(flame);
+                
+                // Remove flame after animation completes
+                setTimeout(() => {
+                    flame.remove();
+                }, duration * 1000);
+            }
+            
+            // Create initial flames
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createFlame();
+                }, i * 200);
+            }
+            
+            // Continue creating flames
+            setInterval(createFlame, 300);
+        });
+        
+        // Check answer code
+        function checkCode() {
+            const code = document.getElementById('answerCode').value;
+            const message = document.getElementById('message');
+            const answersContainer = document.getElementById('answersContainer');
+            
+            if (code === '137630') {
+                answersContainer.style.display = 'block';
+                message.textContent = '';
+                
+                // Animate answers appearing
+                const answers = document.querySelectorAll('.answer');
+                answers.forEach((answer, index) => {
+                    setTimeout(() => {
+                        answer.style.opacity = '0';
+                        answer.style.transform = 'translateY(20px)';
+                        answer.style.transition = 'opacity 0.5s, transform 0.5s';
+                        
+                        setTimeout(() => {
+                            answer.style.opacity = '1';
+                            answer.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, index * 100);
+                });
+            } else {
+                message.textContent = 'Incorrect code. Please try again.';
+                answersContainer.style.display = 'none';
+                
+                // Shake animation for wrong code
+                const codeInput = document.querySelector('.code-input');
+                codeInput.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    codeInput.style.animation = '';
+                }, 500);
+            }
+        }
+        
+        // Add CSS for shake animation
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                    20%, 40%, 60%, 80% { transform: translateX(10px); }
+                }
+            </style>
+        `);
+    </script>
+</body>
+</html>
